@@ -1,0 +1,32 @@
+# routes.yml
+http:
+  routers:
+    api-router:
+      rule: "Host(`rest.coli.localhost`)"
+      entryPoints:
+        - "web"
+        - "websecure"
+      service: "rest-service"
+      priority: 100
+    app-router:
+      rule: "Host(`fe.coli.localhost`)"
+      entryPoints:
+        - "web"
+        - "websecure"
+      service: "fe-service"
+      priority: 1
+
+  services:
+    fe-service:
+      loadBalancer:
+        servers:
+          - url: "http://172.17.0.1:5173"
+    rest-service:
+      loadBalancer:
+        servers:
+          - url: "http://172.17.0.1:1323"
+
+tls:
+  certificates:
+    - certFile: /etc/traefik/cert.pem
+      keyFile: /etc/traefik/key.pem

@@ -1,0 +1,29 @@
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+
+version: "3"
+
+tasks:
+  dev:
+    dir: "./"
+    deps: [docker-up, create-certs]
+    cmds:
+      - task web & task rest
+
+  rest:
+    dir: "./"
+    cmds:
+      - mkdir -p .out
+      - air -c rest.air.toml
+
+  web:
+    dir: "./web/"
+    cmds:
+      - npm run dev
+
+  create-certs:
+    cmd: ./.dev/create-certs.sh
+
+  docker-up:
+    dir: "./"
+    cmds:
+      - docker compose up -d --wait

@@ -1,0 +1,26 @@
+api:
+  dashboard: true
+  insecure: true # Enables the insecure dashboard for local development (not for production)
+
+entryPoints:
+  web:
+    address: ":80"
+    http:
+      redirections:
+        entryPoint:
+          to: websecure
+          scheme: https
+  websecure:
+    address: ":443"
+    http:
+      tls: {}
+
+providers:
+  file:
+    filename: "etc/traefik/routes.yml"
+    watch: true
+
+tls:
+  certificates:
+    - certFile: /etc/traefik/cert.pem
+      keyFile: /etc/traefik/key.pem
