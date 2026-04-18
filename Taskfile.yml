@@ -5,7 +5,7 @@ version: "3"
 tasks:
   dev:
     dir: "./"
-    deps: [docker-up, create-certs]
+    deps: [docker-up]
     cmds:
       - task web & task rest
 
@@ -20,10 +20,8 @@ tasks:
     cmds:
       - npm run dev
 
-  create-certs:
-    cmd: ./.dev/create-certs.sh
-
   docker-up:
     dir: "./"
     cmds:
+      - ./.dev/create-certs.sh
       - docker compose up -d --wait
