@@ -1,4 +1,4 @@
-// Package rest implements the rest server
+// Package rest implements the rest server package rest
 package rest
 
 import (
@@ -19,7 +19,7 @@ func NewRest() *Rest {
 
 func (r *Rest) Start() error {
 	if err := r.e.Start(":6464"); err != nil {
-		return fmt.Errorf("eailed to start server: %w", err)
+		return fmt.Errorf("failed to start server: %w", err)
 	}
 	return nil
 }
