@@ -1,5 +1,6 @@
 package domain
 
 type User struct {
-	Email string
+	Base  `tstype:",extends"`
+	Email string `json:"email"`
 }

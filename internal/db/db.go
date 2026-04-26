@@ -3,6 +3,7 @@ package db
 
 import (
 	"github.com/MikeBooon/coliseum/internal/config"
+	"github.com/MikeBooon/coliseum/internal/db/dao"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
@@ -12,7 +13,7 @@ func Migrate(c *config.Config) error {
 	if err != nil {
 		return err
 	}
-	err = db.AutoMigrate(Models...)
+	err = db.AutoMigrate(dao.Models...)
 	if err != nil {
 		return err
 	}
