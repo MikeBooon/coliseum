@@ -3,7 +3,7 @@ package dao
 import "github.com/uptrace/bun"
 
 type Tenant struct {
-	BaseColumns
+	Base
 	bun.BaseModel
 	Name string `bun:"name,notnull"`
 }

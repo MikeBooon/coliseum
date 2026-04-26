@@ -3,10 +3,13 @@ package service
 import "github.com/MikeBooon/coliseum/internal/system"
 
 type Services struct {
-	User UserService
+	User   UserService
+	Tenant TenantService
 }
 
 func NewServices(sys system.System) *Services {
-	s := Services{User: UserService{db: sys.DB}}
-	return &s
+	return &Services{
+		User:   UserService{db: sys.DB},
+		Tenant: TenantService{db: sys.DB},
+	}
 }

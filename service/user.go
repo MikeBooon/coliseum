@@ -5,17 +5,30 @@ import (
 
 	"github.com/MikeBooon/coliseum/internal/db"
 	"github.com/MikeBooon/coliseum/internal/db/dao"
+	"github.com/google/uuid"
 )
 
 type UserService struct {
 	db *db.DB
 }
 
-func (s UserService) New(ctx context.Context, email string) (*dao.User, error) {
-	user := &dao.User{Email: email}
-	_, err := s.db.NewInsert().Model(user).Exec(ctx)
+func (s UserService) New(ctx context.Context, tenantID uuid.UUID, email string) (*dao.User, error) {
+	u := &dao.User{Email: email, TenantID: tenantID}
+	_, err := s.db.NewInsert().Model(u).Returning("*").Exec(ctx)
 	if err != nil {
 		return nil, err
 	}
-	return user, nil
+	return u, nil
+}
+
+func (s UserService) GetByEmail(ctx context.Context, tenantID uuid.UUID, email string) (*dao.User, error) {
+	u := new(dao.User)
+	err := s.db.NewSelect().Model(u).Apply(whereTenant(tenantID)).
+		Where("email = ?", email).Scan(ctx)
+
+	if isNoRows(err) {
+		return nil, ErrUserNotFound
+	}
+
+	return u, err
 }
