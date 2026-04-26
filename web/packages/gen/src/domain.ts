@@ -7,7 +7,7 @@ export interface Base {
   id: string;
   createdAt: any /* uuid.Time */;
   updatedAt: string /* RFC3339 */;
-  deletedAt: any /* gorm.DeletedAt */;
+  DeletedAt: any /* bun.NullTime */;
 }
 
 //////////

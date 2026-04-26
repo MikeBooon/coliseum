@@ -4,12 +4,11 @@ import (
 	"time"
 
 	"github.com/google/uuid"
-	"gorm.io/gorm"
 )
 
-type Base struct {
-	ID        uuid.UUID      `gorm:"type:uuid;primary_key;default:uuid_generate_v4()"`
-	CreatedAt time.Time      `gorm:"autoCreateTime:milli"`
-	UpdatedAt time.Time      `gorm:"autoUpdateTime:milli"`
-	DeletedAt gorm.DeletedAt `gorm:"index"`
+type BaseColumns struct {
+	ID        uuid.UUID `bun:"id,pk,type:uuid,default:gen_random_uuid()"`
+	CreatedAt time.Time `bun:"created_at,nullzero,notnull,default:current_timestamp"`
+	UpdatedAt time.Time `bun:"updated_at,nullzero,notnull,default:current_timestamp"`
+	DeletedAt time.Time `bun:",soft_delete,nullzero"`
 }

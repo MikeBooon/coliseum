@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"log/slog"
 
 	"github.com/MikeBooon/coliseum/internal/config"
@@ -15,7 +16,8 @@ func main() {
 	c := config.Get(true)
 
 	slog.Debug("Migrating")
-	err := db.Migrate(c)
+	ctx := context.Background()
+	err := db.Migrate(ctx, c)
 	if err != nil {
 		panic(err)
 	}

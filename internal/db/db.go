@@ -2,20 +2,50 @@
 package db
 
 import (
+	"context"
+	"database/sql"
+	"time"
+
 	"github.com/MikeBooon/coliseum/internal/config"
-	"github.com/MikeBooon/coliseum/internal/db/dao"
-	"gorm.io/driver/postgres"
-	"gorm.io/gorm"
+	"github.com/MikeBooon/coliseum/internal/db/migrations"
+	"github.com/uptrace/bun"
+	"github.com/uptrace/bun/dialect/pgdialect"
+	"github.com/uptrace/bun/driver/pgdriver"
+	"github.com/uptrace/bun/migrate"
 )
 
-func Migrate(c *config.Config) error {
-	db, err := gorm.Open(postgres.Open(c.DBConn), &gorm.Config{})
-	if err != nil {
+const MAX_CONNECTIONS = 20
+const MAX_IDLE_CONNECTIONS = 40
+const MAX_CONNECTION_LIFETIME = 3 * time.Minute
+const MAX_CONNECTION_IDLE_TIME = 3 * time.Minute
+
+type DB = bun.DB
+
+func Migrate(ctx context.Context, c *config.Config) error {
+	sqldb := sql.OpenDB(pgdriver.NewConnector(
+		pgdriver.WithDSN(c.DBConn),
+	))
+	db := bun.NewDB(sqldb, pgdialect.New())
+
+	migrator := migrate.NewMigrator(db, migrations.Migrations)
+	if err := migrator.Init(ctx); err != nil {
 		return err
 	}
-	err = db.AutoMigrate(dao.Models...)
-	if err != nil {
-		return err
-	}
-	return nil
+
+	_, err := migrator.Migrate(ctx)
+
+	return err
+}
+
+func Connect(c *config.Config) *DB {
+	sqldb := sql.OpenDB(pgdriver.NewConnector(
+		pgdriver.WithDSN(c.DBConn),
+	))
+	sqldb.SetMaxOpenConns(MAX_CONNECTIONS)
+	sqldb.SetMaxIdleConns(MAX_IDLE_CONNECTIONS)
+	sqldb.SetConnMaxLifetime(MAX_CONNECTION_LIFETIME)
+	sqldb.SetConnMaxIdleTime(MAX_CONNECTION_IDLE_TIME)
+
+	db := bun.NewDB(sqldb, pgdialect.New())
+	return db
 }
