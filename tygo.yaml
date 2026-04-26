@@ -5,6 +5,8 @@ type_mappings:
 packages:
   - path: "github.com/MikeBooon/coliseum/domain"
     output_path: "./web/packages/gen/src/domain.ts"
+  - path: "github.com/MikeBooon/coliseum/perms"
+    output_path: "./web/packages/gen/src/perms.ts"
   # - path: "github.com/MikeBooon/coliseum/domain/requests"
   #   output_path: "./web/packages/gen/src/requests.ts"
   #   frontmatter: |

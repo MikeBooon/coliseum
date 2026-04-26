@@ -17,13 +17,6 @@ type Role struct {
 type Permission struct {
 	Base
 	bun.BaseModel
-	Name string `bun:"name,notnull"`
-}
-
-type RolePermission struct {
-	bun.BaseModel
-	ID           uuid.UUID       `bun:"id,pk,type:uuid,default:gen_random_uuid()"`
-	RoleID       uuid.UUID       `bun:"role_id,notnull,type:uuid"`
-	PermissionID uuid.UUID       `bun:"permission_id,notnull,type:uuid"`
-	Type         domain.UserType `bun:"type,notnull,type:user_type"`
+	Key    string    `bun:"key,notnull"`
+	RoleID uuid.UUID `bun:"role_id,notnull,type:uuid"`
 }

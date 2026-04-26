@@ -31,7 +31,6 @@ tasks:
     dir: "./"
     cmds:
       - docker compose down -v
-      - task: docker-up
   
   test:
     dir: "./"

@@ -22,4 +22,7 @@ export interface Base {
 
 export interface User extends Base {
   email: string;
+  tenantID: string;
+  roleID: string;
+  type: UserType;
 }
