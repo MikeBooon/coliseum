@@ -1,6 +1,8 @@
 package dao
 
 import (
+	"time"
+
 	"github.com/MikeBooon/coliseum/domain"
 	"github.com/google/uuid"
 	"github.com/uptrace/bun"
@@ -15,8 +17,9 @@ type Role struct {
 }
 
 type Permission struct {
-	Base
 	bun.BaseModel
-	Key    string    `bun:"key,notnull"`
-	RoleID uuid.UUID `bun:"role_id,notnull,type:uuid"`
+	ID        uuid.UUID `bun:"id,pk,type:uuid,default:gen_random_uuid()"`
+	CreatedAt time.Time `bun:"created_at,nullzero,notnull,default:current_timestamp"`
+	Key       string    `bun:"key,notnull"`
+	RoleID    uuid.UUID `bun:"role_id,notnull,type:uuid"`
 }

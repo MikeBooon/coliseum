@@ -7,6 +7,7 @@ import (
 	"github.com/MikeBooon/coliseum/internal/config"
 	"github.com/MikeBooon/coliseum/internal/db"
 	"github.com/MikeBooon/coliseum/internal/rest"
+	"github.com/MikeBooon/coliseum/internal/system"
 )
 
 func main() {
@@ -22,7 +23,14 @@ func main() {
 		panic(err)
 	}
 
-	r := rest.NewRest()
+	db := db.Connect(c)
+
+	sys := system.System{
+		DB:     db,
+		Config: c,
+	}
+
+	r := rest.NewRest(sys)
 	err = r.Start()
 	if err != nil {
 		panic(err)

@@ -5,7 +5,8 @@
 
 export type ClientPermissions = string;
 export type AdminPermissions = string;
+export type GlobalPermissions = string;
 export type Permissions = 
-    ClientPermissions | AdminPermissions;
+    ClientPermissions | AdminPermissions | GlobalPermissions;
 export const CreateClientUser: AdminPermissions = "create.client.user";
 export const DeleteClientUser: AdminPermissions = "delete.client.user";
