@@ -1,20 +1,21 @@
 # routes.yml
 http:
   routers:
-    rest-router:
-      rule: "Host(`rest.coli.localhost`)"
-      entryPoints:
-        - "web"
-        - "websecure"
-      service: "rest-service"
-      priority: 100
     fe-router:
-      rule: "Host(`fe.coli.localhost`)"
+      rule: "Host(`coli.localhost`) && PathPrefix(`/`)"
       entryPoints:
         - "web"
         - "websecure"
       service: "fe-service"
       priority: 1
+
+    rest-router:
+      rule: "Host(`coli.localhost`) && PathPrefix(`/api`)"
+      entryPoints:
+        - "web"
+        - "websecure"
+      service: "rest-service"
+      priority: 100
 
   services:
     fe-service:

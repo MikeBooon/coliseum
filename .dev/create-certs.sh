@@ -33,7 +33,7 @@ mkdir -p "$CERT_DIR"
 # Generate certificates
 echo "Generating certificates..."
 cd "$CERT_DIR"
-mkcert -cert-file cert.pem -key-file key.pem "*.coli.localhost" "localhost"
+mkcert -cert-file cert.pem -key-file key.pem "coli.localhost" "localhost"
 
 echo "Certificates created successfully at:"
 echo "  - $CERT_FILE"

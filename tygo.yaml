@@ -1,0 +1,13 @@
+type_mappings:
+  time.Time: "string /* RFC3339 */"
+  uuid.UUID: "string"
+  types.Date: "string"
+packages:
+  - path: "github.com/MikeBooon/coliseum/domain"
+    output_path: "./web/packages/gen/src/domain.ts"
+  # - path: "github.com/MikeBooon/coliseum/domain/requests"
+  #   output_path: "./web/packages/gen/src/requests.ts"
+  #   frontmatter: |
+  #     import * as domain from './domain'
+  # - path: "github.com/MikeBooon/coliseum/domain/queries"
+  #   output_path: "./web/packages/gen/src/queries.ts"
