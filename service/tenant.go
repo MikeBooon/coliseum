@@ -3,17 +3,17 @@ package service
 import (
 	"context"
 
-	"github.com/MikeBooon/coliseum/internal/db"
 	"github.com/MikeBooon/coliseum/internal/db/dao"
+	"github.com/MikeBooon/coliseum/service/store"
 )
 
 type TenantService struct {
-	db db.IDB
+	*store.Provider
 }
 
 func (s TenantService) New(ctx context.Context, name string) (*dao.Tenant, error) {
 	t := &dao.Tenant{Name: name}
-	err := s.db.NewInsert().Model(t).Scan(ctx)
+	err := s.DB().NewInsert().Model(t).Scan(ctx)
 	if err != nil {
 		return nil, err
 	}

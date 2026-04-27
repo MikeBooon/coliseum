@@ -8,6 +8,7 @@ import (
 	"github.com/MikeBooon/coliseum/internal/db"
 	"github.com/MikeBooon/coliseum/internal/rest"
 	"github.com/MikeBooon/coliseum/internal/system"
+	"github.com/MikeBooon/coliseum/service"
 )
 
 func main() {
@@ -28,8 +29,8 @@ func main() {
 	sys := system.System{
 		DB:     db,
 		Config: c,
+		Svcs:   service.NewServices(db),
 	}
-
 	r := rest.NewRest(sys)
 	err = r.Start()
 	if err != nil {

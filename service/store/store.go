@@ -1,4 +1,4 @@
-package service
+package store
 
 import (
 	"github.com/MikeBooon/coliseum/internal/db"
@@ -7,19 +7,12 @@ import (
 	"github.com/uptrace/bun"
 )
 
-type tenantStore struct {
+type TenantStore struct {
 	db       db.IDB
 	tenantID uuid.UUID
 }
 
-func newTenantStore(db db.IDB, tenantID uuid.UUID) tenantStore {
-	return tenantStore{
-		db:       db,
-		tenantID: tenantID,
-	}
-}
-
-func (store tenantStore) newSelect(
+func (store TenantStore) NewSelect(
 	model any,
 ) *bun.SelectQuery {
 	return store.db.NewSelect().
@@ -27,13 +20,12 @@ func (store tenantStore) newSelect(
 		Apply(whereTenant(store.tenantID))
 }
 
-func (store tenantStore) newInsert(
+func (store TenantStore) NewInsert(
 	model any,
 ) *bun.InsertQuery {
 	if tm, ok := model.(dao.TenantSetter); ok {
 		tm.SetTenantID(store.tenantID)
 	}
-
 	return store.db.NewInsert().
 		Model(model)
 }

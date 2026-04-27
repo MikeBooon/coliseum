@@ -27,4 +27,10 @@ func TestNewRole(t *testing.T) {
 	require.NoError(t, err)
 	assert.Equal(t, r.Name, testRole1Name)
 	assert.Equal(t, r.TenantID, tnt.ID)
+
+	rGet, err := s.RBAC.GetRole(tCtx, r.ID)
+
+	require.NoError(t, err)
+	assert.Equal(t, rGet.Name, testRole1Name)
+	assert.Equal(t, rGet.TenantID, tnt.ID)
 }
