@@ -8,12 +8,12 @@ import (
 )
 
 type TenantService struct {
-	db *db.DB
+	db db.IDB
 }
 
 func (s TenantService) New(ctx context.Context, name string) (*dao.Tenant, error) {
 	t := &dao.Tenant{Name: name}
-	_, err := s.db.NewInsert().Model(t).Exec(ctx)
+	err := s.db.NewInsert().Model(t).Scan(ctx)
 	if err != nil {
 		return nil, err
 	}

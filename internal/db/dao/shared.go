@@ -22,3 +22,21 @@ func (base Base) ToDomain() domain.Base {
 		DeletedAt: base.DeletedAt,
 	}
 }
+
+type TenantSetter interface {
+	SetTenantID(id uuid.UUID)
+}
+
+type TenantScoped struct {
+	TenantID uuid.UUID `bun:"tenant_id,notnull,type:uuid"`
+}
+
+func (base *TenantScoped) SetTenantID(tenantID uuid.UUID) {
+	base.TenantID = tenantID
+}
+
+func (base TenantScoped) ToDomain() domain.TenantScoped {
+	return domain.TenantScoped{
+		TenantID: base.TenantID,
+	}
+}

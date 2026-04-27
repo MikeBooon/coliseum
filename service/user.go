@@ -9,12 +9,12 @@ import (
 )
 
 type UserService struct {
-	db *db.DB
+	db db.IDB
 }
 
 func (s UserService) New(ctx context.Context, tenantID uuid.UUID, email string) (*dao.User, error) {
-	u := &dao.User{Email: email, TenantID: tenantID}
-	_, err := s.db.NewInsert().Model(u).Returning("*").Exec(ctx)
+	u := &dao.User{Email: email}
+	err := s.db.NewInsert().Model(u).Scan(ctx)
 	if err != nil {
 		return nil, err
 	}

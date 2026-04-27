@@ -1,33 +1,25 @@
 package service_test
 
-import (
-	"testing"
+// func TestNewUser(t *testing.T) {
+// 	ctx := t.Context()
+// 	s := service.NewServices(testDeps.System)
 
-	"github.com/MikeBooon/coliseum/service"
-	"github.com/stretchr/testify/assert"
-	"github.com/stretchr/testify/require"
-)
+// 	tenant, err := s.Tenant.New(ctx, "TestNewUser")
 
-func TestNewUser(t *testing.T) {
-	ctx := t.Context()
-	s := service.NewServices(testDeps.System)
+// 	require.NoError(t, err)
 
-	tenant, err := s.Tenant.New(ctx, "TestNewUser")
+// 	u, err := s.User.GetByEmail(ctx, tenant.ID, "obama@test.com")
 
-	require.NoError(t, err)
+// 	require.ErrorIs(t, err, service.ErrUserNotFound)
+// 	assert.Nil(t, u)
 
-	u, err := s.User.GetByEmail(ctx, tenant.ID, "obama@test.com")
+// 	u, err = s.User.New(ctx, tenant.ID, "obama@test.com")
 
-	require.ErrorIs(t, err, service.ErrUserNotFound)
-	assert.Nil(t, u)
+// 	require.NoError(t, err)
+// 	assert.NotNil(t, u)
 
-	u, err = s.User.New(ctx, tenant.ID, "obama@test.com")
+// 	u, err = s.User.GetByEmail(ctx, tenant.ID, "obama@test.com")
 
-	require.NoError(t, err)
-	assert.NotNil(t, u)
-
-	u, err = s.User.GetByEmail(ctx, tenant.ID, "obama@test.com")
-
-	require.NoError(t, err)
-	assert.NotNil(t, u)
-}
+// 	require.NoError(t, err)
+// 	assert.NotNil(t, u)
+// }

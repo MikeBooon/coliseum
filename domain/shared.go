@@ -12,3 +12,7 @@ type Base struct {
 	UpdatedAt time.Time  `json:"updatedAt"`
 	DeletedAt *time.Time `bun:"deleted_at,soft_delete,nullzero"`
 }
+
+type TenantScoped struct {
+	TenantID uuid.UUID `json:"tenant_id"`
+}

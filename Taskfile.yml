@@ -35,4 +35,10 @@ tasks:
   test:
     dir: "./"
     cmds:
-      - go test ./...
+      - go test {{.CLI_ARGS | default "./..."}}
+    
+  seed:
+    dir: "./"
+    deps: [docker-up]
+    cmds:
+      - go run ./cmd/seed {{.CLI_ARGS}}

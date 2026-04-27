@@ -9,18 +9,18 @@ import (
 type User struct {
 	Base
 	bun.BaseModel
-	Email    string          `bun:"email,notnull"`
-	TenantID uuid.UUID       `bun:"tenant_id,notnull,type:uuid"`
-	RoleID   uuid.UUID       `bun:"role_id,notnull,type:uuid"`
-	Type     domain.UserType `bun:"type,notnull,type:user_type"`
+	TenantScoped
+	Email  string          `bun:"email,notnull"`
+	RoleID uuid.UUID       `bun:"role_id,notnull,type:uuid"`
+	Type   domain.UserType `bun:"type,notnull,type:user_type"`
 }
 
 func (u *User) ToDomain() *domain.User {
 	return &domain.User{
-		Base:     u.Base.ToDomain(),
-		Email:    u.Email,
-		Type:     u.Type,
-		TenantID: u.TenantID,
-		RoleID:   u.RoleID,
+		Base:         u.Base.ToDomain(),
+		TenantScoped: u.TenantScoped.ToDomain(),
+		Email:        u.Email,
+		Type:         u.Type,
+		RoleID:       u.RoleID,
 	}
 }

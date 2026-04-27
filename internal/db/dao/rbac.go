@@ -11,9 +11,9 @@ import (
 type Role struct {
 	Base
 	bun.BaseModel
-	Name     string          `bun:"name,notnull"`
-	TenantID uuid.UUID       `bun:"tenant_id,notnull,type:uuid"`
-	Type     domain.UserType `bun:"type,notnull,type:user_type"`
+	TenantScoped
+	Name string          `bun:"name,notnull"`
+	Type domain.UserType `bun:"type,notnull,type:user_type"`
 }
 
 type Permission struct {

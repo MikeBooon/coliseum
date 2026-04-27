@@ -5,9 +5,9 @@ import (
 )
 
 type User struct {
-	Base     `tstype:",extends"`
-	Email    string    `json:"email"`
-	TenantID uuid.UUID `json:"tenantID"`
-	RoleID   uuid.UUID `json:"roleID"`
-	Type     UserType  `json:"type"`
+	Base         `tstype:",extends"`
+	TenantScoped `tstype:",extends"`
+	Email        string    `json:"email"`
+	RoleID       uuid.UUID `json:"roleID"`
+	Type         UserType  `json:"type"`
 }

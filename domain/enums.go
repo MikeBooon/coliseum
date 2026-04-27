@@ -3,6 +3,6 @@ package domain
 type UserType string
 
 const (
-	Admin  UserType = "admin"
-	Client UserType = "client"
+	AdminUserType  UserType = "admin"
+	ClientUserType UserType = "client"
 )

@@ -1,15 +1,19 @@
 package service
 
-import "github.com/MikeBooon/coliseum/internal/system"
+import (
+	"github.com/MikeBooon/coliseum/internal/db"
+)
 
 type Services struct {
 	User   UserService
 	Tenant TenantService
+	RBAC   RBACService
 }
 
-func NewServices(sys system.System) *Services {
+func NewServices(db db.IDB) *Services {
 	return &Services{
-		User:   UserService{db: sys.DB},
-		Tenant: TenantService{db: sys.DB},
+		User:   UserService{db},
+		Tenant: TenantService{db},
+		RBAC:   RBACService{db},
 	}
 }
