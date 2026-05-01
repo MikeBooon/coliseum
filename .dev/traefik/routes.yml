@@ -1,16 +1,47 @@
+http:
+  middlewares:
+    authentik:
+      forwardAuth:
+        address: http://auth.localhost:9000/outpost.goauthentik.io/auth/traefik
+      trustForwardHeader: true
+      authResponseHeaders:
+        - X-authentik-username
+        - X-authentik-groups
+        - X-authentik-entitlements
+        - X-authentik-email
+        - X-authentik-name
+        - X-authentik-uid
+        - X-authentik-jwt
+        - X-authentik-meta-jwks
+        - X-authentik-meta-outpost
+        - X-authentik-meta-provider
+        - X-authentik-meta-app
+        - X-authentik-meta-version
+        # Add the 'authorization' header to authResponseHeaders if you need proxy providers which
+        # send a custom HTTP-Basic Authentication header based on values from authentik
+        # - authorization
+
 # routes.yml
 http:
   routers:
-    fe-router:
-      rule: "Host(`coli.localhost`) && PathPrefix(`/`)"
+    auth-router:
+      rule: "Host(`auth.localhost`) && PathPrefix(`/`)"
       entryPoints:
         - "web"
         - "websecure"
       service: "fe-service"
       priority: 1
 
+    fe-router:
+      rule: "Host(`*.localhost`) && PathPrefix(`/`)"
+      entryPoints:
+        - "web"
+        - "websecure"
+      service: "fe-service"
+      priority: 50
+
     rest-router:
-      rule: "Host(`coli.localhost`) && PathPrefix(`/api`)"
+      rule: "Host(`*.localhost`) && PathPrefix(`/api`)"
       entryPoints:
         - "web"
         - "websecure"
@@ -26,6 +57,10 @@ http:
       loadBalancer:
         servers:
           - url: "http://172.17.0.1:6464"
+    auth-service:
+      loadBalancer:
+        servers:
+          - url: "http://172.17.0.1:9000"
 
 tls:
   certificates:

@@ -22,13 +22,13 @@ tasks:
       - npm run dev
 
   docker-up:
-    dir: "./"
+    dir: "./.dev"
     cmds:
-      - ./.dev/create-certs.sh
+      - ./create-certs.sh
       - docker compose up -d --wait
 
   reset:
-    dir: "./"
+    dir: "./.dev"
     cmds:
       - docker compose down -v
   
@@ -42,3 +42,13 @@ tasks:
     deps: [docker-up]
     cmds:
       - go run ./cmd/seed {{.CLI_ARGS}}
+
+  auth-up:
+    dir: "./.dev/authentik"
+    cmds:
+      - docker compose up -d
+
+  auth-down:
+    dir: "./.dev/authentik"
+    cmds:
+      - docker compose down
