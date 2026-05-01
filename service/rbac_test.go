@@ -22,7 +22,11 @@ func TestNewRole(t *testing.T) {
 
 	var testRole1Name = "test role 1"
 
-	r, err := s.RBAC.NewRole(tCtx, testRole1Name, domain.ClientUserType)
+	r, err := s.RBAC.NewRole(tCtx, service.NewRoleOpts{
+		Name:      testRole1Name,
+		UserType:  domain.TenantUserType,
+		IsDefault: false,
+	})
 
 	require.NoError(t, err)
 	assert.Equal(t, r.Name, testRole1Name)

@@ -1,14 +1,14 @@
 package perms
 
 type ClientPermissions string
-type AdminPermissions string
+type TenantPermissions string
 type GlobalPermissions string
 
 type Permissions interface {
-	ClientPermissions | AdminPermissions | GlobalPermissions
+	ClientPermissions | TenantPermissions | GlobalPermissions
 }
 
 const (
-	CreateClientUser AdminPermissions = "create.client.user"
-	DeleteClientUser AdminPermissions = "delete.client.user"
+	CreateClientUser TenantPermissions = "create.client.user"
+	DeleteClientUser TenantPermissions = "delete.client.user"
 )

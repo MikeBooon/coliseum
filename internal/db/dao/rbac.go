@@ -12,8 +12,9 @@ type Role struct {
 	Base
 	bun.BaseModel
 	TenantScoped
-	Name string          `bun:"name,notnull"`
-	Type domain.UserType `bun:"type,notnull,type:user_type"`
+	Name    string          `bun:"name,notnull"`
+	Type    domain.UserType `bun:"type,notnull,type:user_type"`
+	Default bool            `bun:"default,notnull,default:false"`
 }
 
 type Permission struct {

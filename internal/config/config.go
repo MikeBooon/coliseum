@@ -9,6 +9,7 @@ import (
 
 type Config struct {
 	DBConn string
+	EncKey string
 }
 
 func Get(useDotEnv bool) *Config {
@@ -21,6 +22,7 @@ func Get(useDotEnv bool) *Config {
 
 	c := Config{
 		DBConn: getEnvOrThrow("DB_CONNECTION"),
+		EncKey: getEnvOrThrow("ENC_KEY"),
 	}
 	return &c
 }

@@ -9,21 +9,25 @@ import (
 )
 
 type Services struct {
-	db     db.IDB
-	User   *UserService
-	Tenant *TenantService
-	RBAC   *RBACService
+	db        db.IDB
+	User      *UserService
+	Tenant    *TenantService
+	RBAC      *RBACService
+	Provision *ProvisionService
 }
 
 func NewServices(db db.IDB) *Services {
 	storeProvider := store.NewProvider(db)
 
-	return &Services{
-		db:     db,
-		User:   &UserService{storeProvider},
-		Tenant: &TenantService{storeProvider},
-		RBAC:   &RBACService{storeProvider},
-	}
+	svcs := &Services{}
+
+	svcs.db = db
+	svcs.RBAC = &RBACService{storeProvider}
+	svcs.User = &UserService{storeProvider}
+	svcs.Tenant = &TenantService{storeProvider}
+	svcs.Provision = &ProvisionService{storeProvider, svcs}
+
+	return svcs
 }
 
 func (s *Services) InTx(ctx context.Context, fn func(s *Services) error) error {
