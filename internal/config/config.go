@@ -7,12 +7,12 @@ import (
 	"github.com/joho/godotenv"
 )
 
-type Config struct {
+type EnvConfig struct {
 	DBConn string
 	EncKey string
 }
 
-func Get(useDotEnv bool) *Config {
+func GetEnv(useDotEnv bool) *EnvConfig {
 	if useDotEnv {
 		err := godotenv.Load()
 		if err != nil {
@@ -20,14 +20,14 @@ func Get(useDotEnv bool) *Config {
 		}
 	}
 
-	c := Config{
-		DBConn: getEnvOrThrow("DB_CONNECTION"),
-		EncKey: getEnvOrThrow("ENC_KEY"),
+	c := EnvConfig{
+		DBConn: getEnvVarOrThrow("DB_CONNECTION"),
+		EncKey: getEnvVarOrThrow("ENC_KEY"),
 	}
 	return &c
 }
 
-func getEnvOrThrow(key string) string {
+func getEnvVarOrThrow(key string) string {
 	v := os.Getenv(key)
 	if v == "" {
 		panic("missing env var: " + key)

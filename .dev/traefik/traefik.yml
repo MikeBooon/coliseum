@@ -17,7 +17,7 @@ entryPoints:
 
 providers:
   file:
-    filename: "etc/traefik/routes.yml"
+    filename: "/etc/traefik/routes.yml"
     watch: true
 
 tls:

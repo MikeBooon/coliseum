@@ -33,16 +33,16 @@ func initIntegrationTestDeps(ctx context.Context) *IntegrationTestDeps {
 	if err != nil {
 		log.Fatal(err)
 	}
-	c := &config.Config{
+	env := &config.EnvConfig{
 		DBConn: pg.ConnectionString,
 	}
-	if err = db.Migrate(ctx, c); err != nil {
+	if err = db.Migrate(ctx, env); err != nil {
 		log.Fatal(err)
 	}
-	db := db.Connect(c)
+	db := db.Connect(env)
 	sys := system.System{
-		DB:     db,
-		Config: c,
+		DB:        db,
+		EnvConfig: env,
 	}
 
 	return &IntegrationTestDeps{

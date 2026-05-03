@@ -4,9 +4,9 @@
 // source: list.go
 
 export type ClientPermissions = string;
-export type AdminPermissions = string;
+export type TenantPermissions = string;
 export type GlobalPermissions = string;
 export type Permissions = 
-    ClientPermissions | AdminPermissions | GlobalPermissions;
-export const CreateClientUser: AdminPermissions = "create.client.user";
-export const DeleteClientUser: AdminPermissions = "delete.client.user";
+    ClientPermissions | TenantPermissions | GlobalPermissions;
+export const CreateClientUser: TenantPermissions = "create.client.user";
+export const DeleteClientUser: TenantPermissions = "delete.client.user";

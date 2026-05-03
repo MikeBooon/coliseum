@@ -4,8 +4,8 @@
 // source: enums.go
 
 export type UserType = string;
-export const Admin: UserType = "admin";
-export const Client: UserType = "client";
+export const TenantUserType: UserType = "tenant";
+export const ClientUserType: UserType = "client";
 
 //////////
 // source: shared.go
@@ -16,13 +16,15 @@ export interface Base {
   updatedAt: string /* RFC3339 */;
   DeletedAt?: string /* RFC3339 */;
 }
+export interface TenantScoped {
+  tenant_id: string;
+}
 
 //////////
 // source: user.go
 
-export interface User extends Base {
+export interface User extends Base, TenantScoped {
   email: string;
-  tenantID: string;
   roleID: string;
   type: UserType;
 }

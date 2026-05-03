@@ -7,7 +7,7 @@ import (
 )
 
 type System struct {
-	DB     *db.DB
-	Config *config.Config
-	Svcs   *service.Services
+	DB        *db.DB
+	EnvConfig *config.EnvConfig
+	Svcs      *service.Services
 }

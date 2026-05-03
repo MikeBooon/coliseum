@@ -15,21 +15,21 @@ func main() {
 	slog.Info("Starting rest server")
 
 	slog.Debug("Getting config")
-	c := config.Get(true)
+	env := config.GetEnv(true)
 
 	slog.Debug("Migrating")
 	ctx := context.Background()
-	err := db.Migrate(ctx, c)
+	err := db.Migrate(ctx, env)
 	if err != nil {
 		panic(err)
 	}
 
-	db := db.Connect(c)
+	db := db.Connect(env)
 
 	sys := system.System{
-		DB:     db,
-		Config: c,
-		Svcs:   service.NewServices(db),
+		DB:        db,
+		EnvConfig: env,
+		Svcs:      service.NewServices(db),
 	}
 	r := rest.NewRest(sys)
 	err = r.Start()

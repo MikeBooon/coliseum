@@ -22,7 +22,7 @@ const MAX_CONNECTION_IDLE_TIME = 3 * time.Minute
 type DB = bun.DB
 type IDB = bun.IDB
 
-func Migrate(ctx context.Context, c *config.Config) error {
+func Migrate(ctx context.Context, c *config.EnvConfig) error {
 	sqldb := sql.OpenDB(pgdriver.NewConnector(
 		pgdriver.WithDSN(c.DBConn),
 	))
@@ -38,7 +38,7 @@ func Migrate(ctx context.Context, c *config.Config) error {
 	return err
 }
 
-func Connect(c *config.Config) *bun.DB {
+func Connect(c *config.EnvConfig) *bun.DB {
 	sqldb := sql.OpenDB(pgdriver.NewConnector(
 		pgdriver.WithDSN(c.DBConn),
 	))
