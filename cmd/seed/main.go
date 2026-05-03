@@ -9,9 +9,11 @@ import (
 	"os"
 	"slices"
 
+	"github.com/MikeBooon/coliseum/internal/auth"
 	"github.com/MikeBooon/coliseum/internal/config"
 	"github.com/MikeBooon/coliseum/internal/db"
 	"github.com/MikeBooon/coliseum/internal/system"
+	"github.com/MikeBooon/coliseum/service"
 )
 
 var seedFiles = map[string]func(sys system.System) error{}
@@ -41,8 +43,10 @@ func main() {
 	db := db.Connect(env)
 
 	sys := system.System{
-		DB:        db,
-		EnvConfig: env,
+		DB:         db,
+		EnvConfig:  env,
+		Svcs:       service.NewServices(db),
+		AuthClient: auth.NewAuthClient(env),
 	}
 
 	if !slices.Contains(slices.Sorted(maps.Keys(seedFiles)), seed) {

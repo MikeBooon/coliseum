@@ -4,6 +4,7 @@ import (
 	"context"
 	"log/slog"
 
+	"github.com/MikeBooon/coliseum/internal/auth"
 	"github.com/MikeBooon/coliseum/internal/config"
 	"github.com/MikeBooon/coliseum/internal/db"
 	"github.com/MikeBooon/coliseum/internal/rest"
@@ -27,9 +28,10 @@ func main() {
 	db := db.Connect(env)
 
 	sys := system.System{
-		DB:        db,
-		EnvConfig: env,
-		Svcs:      service.NewServices(db),
+		DB:         db,
+		EnvConfig:  env,
+		Svcs:       service.NewServices(db),
+		AuthClient: auth.NewAuthClient(env),
 	}
 	r := rest.NewRest(sys)
 	err = r.Start()

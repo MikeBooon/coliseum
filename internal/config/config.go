@@ -8,11 +8,12 @@ import (
 )
 
 type EnvConfig struct {
-	Domain        string
-	DBConn        string
-	EncKey        string
-	ZitadelDomain string
-	ZitadelClient string
+	Domain           string
+	DBConn           string
+	EncKey           string
+	CasdoorDomain    string
+	CasdoorAppID     string
+	CasdoorAppSecret string
 }
 
 func GetEnv(useDotEnv bool) *EnvConfig {
@@ -24,11 +25,12 @@ func GetEnv(useDotEnv bool) *EnvConfig {
 	}
 
 	c := EnvConfig{
-		Domain:        getEnvVarOrThrow("DOMAIN"),
-		DBConn:        getEnvVarOrThrow("DB_CONNECTION"),
-		EncKey:        getEnvVarOrThrow("ENC_KEY"),
-		ZitadelDomain: getEnvVarOrThrow("ZITADEL_DOMAIN"),
-		ZitadelClient: getEnvVarOrThrow("ZITADEL_CLIENT"),
+		Domain:           getEnvVarOrThrow("DOMAIN"),
+		DBConn:           getEnvVarOrThrow("DB_CONNECTION"),
+		EncKey:           getEnvVarOrThrow("ENC_KEY"),
+		CasdoorDomain:    getEnvVarOrThrow("CASDOOR_DOMAIN"),
+		CasdoorAppID:     getEnvVarOrThrow("CASDOOR_APP_ID"),
+		CasdoorAppSecret: getEnvVarOrThrow("CASDOOR_APP_SECRET"),
 	}
 	return &c
 }
