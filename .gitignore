@@ -36,3 +36,5 @@ tmp
 
 .dev/traefik/cert.pem
 .dev/traefik/key.pem
+
+.dev/casdoor/logs

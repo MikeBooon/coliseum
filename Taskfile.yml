@@ -41,7 +41,7 @@ tasks:
     dir: "./"
     deps: [docker-up]
     cmds:
-      - go run ./cmd/seed {{.CLI_ARGS}}
+      - go run ./cmd/seed -seed="{{.CLI_ARGS}}"
 
   auth-up:
     dir: "./.dev/zitadel"

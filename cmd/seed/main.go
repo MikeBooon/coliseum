@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"flag"
 	"log"
 	"log/slog"
 	"maps"
@@ -16,6 +17,15 @@ import (
 var seedFiles = map[string]func(sys system.System) error{}
 
 func main() {
+	var seed string
+	flag.StringVar(&seed, "seed", "", "Seed file to run")
+	flag.Parse()
+
+	if seed == "" {
+		flag.Usage()
+		os.Exit(1)
+	}
+
 	slog.Info("Seed starting")
 
 	slog.Debug("Getting config")
@@ -34,11 +44,6 @@ func main() {
 		DB:        db,
 		EnvConfig: env,
 	}
-
-	if len(os.Args) <= 1 {
-		log.Fatalf("Seed file not specified")
-	}
-	seed := os.Args[1]
 
 	if !slices.Contains(slices.Sorted(maps.Keys(seedFiles)), seed) {
 		log.Fatalf("Seed file '%s' not found", seed)

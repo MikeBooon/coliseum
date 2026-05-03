@@ -19,3 +19,7 @@ Coliseum is a SaaS product for Freelance Devlopers and Software Development Agen
 - Tenants can charge clients a monthly fee
 - Communication happens with simple markdown editor
 
+## Auth
+
+- Handle orgs and users in Casdoor
+- Handle permissions and rols in Coliseum

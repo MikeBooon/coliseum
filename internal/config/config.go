@@ -8,8 +8,11 @@ import (
 )
 
 type EnvConfig struct {
-	DBConn string
-	EncKey string
+	Domain        string
+	DBConn        string
+	EncKey        string
+	ZitadelDomain string
+	ZitadelClient string
 }
 
 func GetEnv(useDotEnv bool) *EnvConfig {
@@ -21,8 +24,11 @@ func GetEnv(useDotEnv bool) *EnvConfig {
 	}
 
 	c := EnvConfig{
-		DBConn: getEnvVarOrThrow("DB_CONNECTION"),
-		EncKey: getEnvVarOrThrow("ENC_KEY"),
+		Domain:        getEnvVarOrThrow("DOMAIN"),
+		DBConn:        getEnvVarOrThrow("DB_CONNECTION"),
+		EncKey:        getEnvVarOrThrow("ENC_KEY"),
+		ZitadelDomain: getEnvVarOrThrow("ZITADEL_DOMAIN"),
+		ZitadelClient: getEnvVarOrThrow("ZITADEL_CLIENT"),
 	}
 	return &c
 }

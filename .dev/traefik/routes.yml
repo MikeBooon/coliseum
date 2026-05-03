@@ -2,6 +2,14 @@
 http:
   routers:
 
+    auth-router:
+      rule: "Host(`iam.service.localhost`)"
+      entryPoints:
+        - "web"
+        - "websecure"
+      service: "auth-service"
+      priority: 30
+
     fe-router:
       rule: "PathPrefix(`/`)"
       entryPoints:
@@ -19,6 +27,10 @@ http:
       priority: 20
 
   services:
+    auth-service:
+      loadBalancer:
+        servers:
+          - url: "http://172.17.0.1:8000"
     fe-service:
       loadBalancer:
         servers:

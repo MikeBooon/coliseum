@@ -1,0 +1,21 @@
+{
+  "applications": [{
+    "owner": "admin",
+    "name": "coli",
+    "displayName": "Coliseum",
+    "organization": "built-in",
+    "isShared": true,
+    "title": "Coliseum",
+    "clientId": "iam-coli",
+    "clientSecret": "dev-secret-coli",
+    "redirectUris": ["https://callback.localhost/api/v1/auth/callback"],
+    "tokenFormat": "JWT",
+    "expireInHours": 12,
+    "refreshExpireInHours": 480,
+    "signInMethods": [{
+      "name": "Password",
+      "displayName": "Password",
+      "rule": "All"
+    }]
+  }]
+}

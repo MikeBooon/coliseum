@@ -10,9 +10,10 @@ services:
       POSTGRES_DB: coli
     volumes:
       - pgdata:/var/lib/postgresql
+      - ./init-db.sql:/docker-entrypoint-initdb.d/init-db.sql
     healthcheck:
-      test:
-        ["CMD", "pg_isready", "-U", "postgres", "-d", "coli", "-h", "localhost"]
+      test: >
+        bash -c "pg_isready -U postgres -d coli && pg_isready -U postgres -d iam"
       interval: 2s
       timeout: 2s
       retries: 30
@@ -25,9 +26,24 @@ services:
     ports:
       - "80:80"
       - "443:443"
-      - "8081:8080"
+      - "8080:8080"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ./traefik:/etc/traefik
+
+  casdoor:
+    image: casbin/casdoor:latest
+    container_name: casdoor
+    environment:
+      - GIN_MODE=release
+    volumes:
+      - ./casdoor/conf:/conf
+      - ./casdoor/logs:/logs
+    ports:
+      - "8000:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+
 volumes:
   pgdata:
