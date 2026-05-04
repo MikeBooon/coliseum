@@ -2,6 +2,7 @@
 package config
 
 import (
+	"log"
 	"os"
 
 	"github.com/joho/godotenv"
@@ -14,6 +15,9 @@ type EnvConfig struct {
 	CasdoorDomain    string
 	CasdoorAppID     string
 	CasdoorAppSecret string
+	CasdoorAppCert   string
+	CasdoorAppName   string
+	CasdoorAdminOrg  string
 }
 
 func GetEnv(useDotEnv bool) *EnvConfig {
@@ -31,6 +35,9 @@ func GetEnv(useDotEnv bool) *EnvConfig {
 		CasdoorDomain:    getEnvVarOrThrow("CASDOOR_DOMAIN"),
 		CasdoorAppID:     getEnvVarOrThrow("CASDOOR_APP_ID"),
 		CasdoorAppSecret: getEnvVarOrThrow("CASDOOR_APP_SECRET"),
+		CasdoorAppCert:   getFileContentsOrThrow(getEnvVarOrThrow("CASDOOR_APP_CERT_PATH")),
+		CasdoorAppName:   getEnvVarOrThrow("CASDOOR_APP_NAME"),
+		CasdoorAdminOrg:  getEnvVarOrThrow("CASDOOR_ADMIN_ORG"),
 	}
 	return &c
 }
@@ -38,7 +45,15 @@ func GetEnv(useDotEnv bool) *EnvConfig {
 func getEnvVarOrThrow(key string) string {
 	v := os.Getenv(key)
 	if v == "" {
-		panic("missing env var: " + key)
+		log.Fatalf("missing env var: %s", key)
 	}
 	return v
+}
+
+func getFileContentsOrThrow(path string) string {
+	certBytes, err := os.ReadFile(path)
+	if err != nil {
+		log.Fatalf("failed to load file '%s' because: %v", path, err)
+	}
+	return string(certBytes)
 }

@@ -1,21 +1,53 @@
 {
-  "applications": [{
-    "owner": "admin",
-    "name": "coli",
-    "displayName": "Coliseum",
-    "organization": "built-in",
-    "isShared": true,
-    "title": "Coliseum",
-    "clientId": "iam-coli-app",
-    "clientSecret": "dev-secret-coli-secret",
-    "redirectUris": ["https://callback.localhost/api/v1/auth/callback"],
-    "tokenFormat": "JWT",
-    "expireInHours": 12,
-    "refreshExpireInHours": 480,
-    "signInMethods": [{
-      "name": "Password",
-      "displayName": "Password",
-      "rule": "All"
-    }]
-  }]
+  "certs": [
+    {
+      "owner": "admin",
+      "name": "cert-built-in",
+      "certificate": "-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAry8SNGt4zuesgsBI80l1\nrv1pr/zHYIH0Tz1C/7a+0qddgO+OR3ew78Xz2RtQThxa35eo7CleWK6LLG1SFKu6\n+ZKfbX7mJPa8BUtdsZUPPBcX3aatq5S7KX/5xB25ghhj3OkQxnGpajZKVPvMW7Pl\nhjdVAyqVakMKRa7NSpMSYML5gW14oT351XHgz5V1sWk5ufVK28zMb5e7ot5S6uRZ\nseud0AbHZdc6TgQmd1AGxLLbxz+SuouqsoV9B/lN66Nf48CAk+wusoZqKb4B0H7p\nsquBTYZjzWP+DAqJit0PKo4xIENPtqY5l3CmqLV68bhlICT+fWCN+P/A0K/1Lbua\nBQIDAQAB\n-----END PUBLIC KEY-----\n",
+      "privateKey": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQCvLxI0a3jO56yC\nwEjzSXWu/Wmv/MdggfRPPUL/tr7Sp12A745Hd7DvxfPZG1BOHFrfl6jsKV5Yross\nbVIUq7r5kp9tfuYk9rwFS12xlQ88Fxfdpq2rlLspf/nEHbmCGGPc6RDGcalqNkpU\n+8xbs+WGN1UDKpVqQwpFrs1KkxJgwvmBbXihPfnVceDPlXWxaTm59UrbzMxvl7ui\n3lLq5Fmx653QBsdl1zpOBCZ3UAbEstvHP5K6i6qyhX0H+U3ro1/jwICT7C6yhmop\nvgHQfumyq4FNhmPNY/4MComK3Q8qjjEgQ0+2pjmXcKaotXrxuGUgJP59YI34/8DQ\nr/Utu5oFAgMBAAECggEAAcrS/ltNIJzJLItIE8kgHZq1HppQ9eFOfRMM4O3fNOuG\nbt/EjmGgm0tkq8d2Ql5S5a+5CDWCJBkhDmLN8K0zHAOOgwHF3AH0OX+kZUE3py87\nTMa8RyGd6pZHGWUOdVDHkMaHp+gYyh/lEcqDtDp6ci2VvpMMdUpbTAw2SHmJuhiw\nMwp1P0nQFoJA6wzOEv8JQ8bvnsKcHquPklWrbfmr/EAb/l8bcLcT3n702OjoQeVJ\nrebEj/Ba99f5nMQfSD/+H5A1HvCXocgxbnWZy/4cPQnZlvuE3rxQWPnOjwz6dL80\n9+goWA5+gslH8lfR+QO6QxXAo6xCjEohWTYMH8lUzwKBgQDxQ/XhWGGpLTfF2yd4\nJOznvAgElUyKWfo2aapi2csJ3oa4VaA5g/IsqI3x5VumiRLhhGWaMxHdNlY5/7iw\nHRdx1WxrJ8z36jGjKHOXZOGKoNP/+5txgwYPyzH45d23ljI8QDoSM/DCWMMSrm4R\nwAeRndZkTQ/i1sBBVkVU1vpELwKBgQC54fcA81A9cbB+G6uavL3kGnxMsO/KeQGm\n3LbLvXHn0E20O44kknj4bZgODxbdikJoJgueiQjS8f43fGwfq1DMb4/06ad9p8Dv\n/aa278EsO52c37d1iLjEt4c6OFweOQuyBBGLUSLTubLVmcV6Dnz8bwU1zXdWWq/i\n/7TCYgkUCwKBgQCmhOKDCw40xtnUvKLsQIgmlVfvWeB/KQUSYzHPkkSZ5jWTqr2w\nlMokWp3F1CjCs58NeeTqXc85oBQ5aa9eFmYlEkoHV2wXvFNQKk5FssIcfU51QoKS\nAP3BDtzJzlWOLaM0hJvQDntgmATjsvKTW7edoJPlnG6XgOMm9VVa7hnDzwKBgQCy\nbRDoPKY9FLBRnMXwVlQAbNv70aubMuQ/A4YDs+lulyi/ZJtgx6iO7sQSWrGcHmb4\nCe0FVIy/z8IyCKDRFWUNl9kbQl2f5DLzKwuodiN7Dg6Q0r4LeB3D1ldbr1XdPOzZ\nB8a/cDZ5/bqIBn7kVpvqw7bAmmV+4rYKs2ETZX9JWQKBgE1dIlEUov+pS8O4omjr\n0hQOHTa/LrcRQSMOvzFNXYXOqEUmFrqbBuFoO4YgE4nww6UHc0tWdD68rhkHkZsx\neGG1nFh0Yf+4E1O8UPToC0wSOdPMrSHyrAJK6A2nK/sUdPCZXY6/HLxk49yuFbXP\ncZV5VSryiVcDFI85cdPmno8X\n-----END PRIVATE KEY-----\n"
+    }
+  ],
+  "applications": [
+    {
+      "owner": "admin",
+      "name": "coli",
+      "displayName": "Coliseum",
+      "organization": "built-in",
+      "isShared": true,
+      "title": "Coliseum",
+      "clientId": "iam-coli-app",
+      "clientSecret": "dev-secret-coli-secret",
+      "redirectUris": [
+        "https://callback.localhost/api/v1/auth/callback"
+      ],
+      "tokenFormat": "JWT",
+      "expireInHours": 12,
+      "refreshExpireInHours": 480,
+      "signInMethods": [
+        {
+          "name": "Password",
+          "displayName": "Password",
+          "rule": "All"
+        }
+      ]
+    },
+    {
+      "owner": "admin",
+      "name": "app-built-in",
+      "createdTime": "2026-05-03T11:27:22Z",
+      "displayName": "Casdoor",
+      "logo": "https://casbin.org/img/casbin.svg",
+      "homepageUrl": "https://casdoor.org",
+      "description": "Casdoor built-in application",
+      "organization": "built-in",
+      "clientId": "admin-client-id",
+      "clientSecret": "admin-secret",
+      "redirectUris": [
+        "http://localhost:8000/callback"
+      ],
+      "expireTime": 10080,
+      "refreshExpireTime": 10080,
+      "tokenFormat": "JWT"
+    }
+  ]
 }

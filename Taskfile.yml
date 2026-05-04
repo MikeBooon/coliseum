@@ -42,14 +42,3 @@ tasks:
     deps: [docker-up]
     cmds:
       - go run ./cmd/seed -seed="{{.CLI_ARGS}}"
-
-  auth-up:
-    dir: "./.dev/zitadel"
-    cmds:
-      - if [ ! -f .env ]; then cp .env.example .env; fi
-      - docker compose up -d
-
-  auth-down:
-    dir: "./.dev/zitadel"
-    cmds:
-      - docker compose down
