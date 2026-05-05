@@ -31,19 +31,19 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - ./traefik:/etc/traefik
 
-  casdoor:
-    image: casbin/casdoor:latest
-    container_name: casdoor
-    environment:
-      - GIN_MODE=release
-    volumes:
-      - ./casdoor/conf:/conf
-      - ./casdoor/logs:/logs
+  mailpit:
+    image: axllent/mailpit
     ports:
-      - "8000:8000"
-    depends_on:
-      db:
-        condition: service_healthy
+      - "8025:8025"
+      - "1025:1025"
+    volumes:
+      - mailpitdata:/data
+    environment:
+      MP_MAX_MESSAGES: 5000
+      MP_DATABASE: /data/mailpit.db
+      MP_SMTP_AUTH_ACCEPT_ANY: 1
+      MP_SMTP_AUTH_ALLOW_INSECURE: 1
 
 volumes:
   pgdata:
+  mailpitdata:

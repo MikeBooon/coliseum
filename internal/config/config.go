@@ -9,15 +9,15 @@ import (
 )
 
 type EnvConfig struct {
-	Domain           string
-	DBConn           string
-	EncKey           string
-	CasdoorDomain    string
-	CasdoorAppID     string
-	CasdoorAppSecret string
-	CasdoorAppCert   string
-	CasdoorAppName   string
-	CasdoorAdminOrg  string
+	Domain             string
+	DBConn             string
+	EncKey             string
+	CasdoorDomain      string
+	CasdoorAppClientID string
+	CasdoorAppSecret   string
+	CasdoorAppCert     string
+	CasdoorAppName     string
+	CasdoorAdminOrg    string
 }
 
 func GetEnv(useDotEnv bool) *EnvConfig {
@@ -29,15 +29,9 @@ func GetEnv(useDotEnv bool) *EnvConfig {
 	}
 
 	c := EnvConfig{
-		Domain:           getEnvVarOrThrow("DOMAIN"),
-		DBConn:           getEnvVarOrThrow("DB_CONNECTION"),
-		EncKey:           getEnvVarOrThrow("ENC_KEY"),
-		CasdoorDomain:    getEnvVarOrThrow("CASDOOR_DOMAIN"),
-		CasdoorAppID:     getEnvVarOrThrow("CASDOOR_APP_ID"),
-		CasdoorAppSecret: getEnvVarOrThrow("CASDOOR_APP_SECRET"),
-		CasdoorAppCert:   getFileContentsOrThrow(getEnvVarOrThrow("CASDOOR_APP_CERT_PATH")),
-		CasdoorAppName:   getEnvVarOrThrow("CASDOOR_APP_NAME"),
-		CasdoorAdminOrg:  getEnvVarOrThrow("CASDOOR_ADMIN_ORG"),
+		Domain: getEnvVarOrThrow("DOMAIN"),
+		DBConn: getEnvVarOrThrow("DB_CONNECTION"),
+		EncKey: getEnvVarOrThrow("ENC_KEY"),
 	}
 	return &c
 }

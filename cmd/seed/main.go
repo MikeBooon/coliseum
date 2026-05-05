@@ -9,7 +9,6 @@ import (
 	"os"
 	"slices"
 
-	"github.com/MikeBooon/coliseum/internal/auth"
 	"github.com/MikeBooon/coliseum/internal/config"
 	"github.com/MikeBooon/coliseum/internal/db"
 	"github.com/MikeBooon/coliseum/internal/system"
@@ -43,10 +42,9 @@ func main() {
 	db := db.Connect(env)
 
 	sys := system.System{
-		DB:         db,
-		EnvConfig:  env,
-		Svcs:       service.NewServices(db),
-		AuthClient: auth.NewAuthClient(env),
+		DB:        db,
+		EnvConfig: env,
+		Svcs:      service.NewServices(db),
 	}
 
 	if !slices.Contains(slices.Sorted(maps.Keys(seedFiles)), seed) {
