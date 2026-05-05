@@ -3,8 +3,8 @@ package controller
 import (
 	"github.com/MikeBooon/coliseum/domain/dto"
 	"github.com/MikeBooon/coliseum/internal/rest/input"
+	"github.com/MikeBooon/coliseum/internal/service"
 	"github.com/MikeBooon/coliseum/internal/system"
-	"github.com/MikeBooon/coliseum/service"
 	"github.com/labstack/echo/v5"
 	"github.com/labstack/echo/v5/middleware"
 )

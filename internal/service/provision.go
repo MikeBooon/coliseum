@@ -5,13 +5,12 @@ import (
 
 	"github.com/MikeBooon/coliseum/domain"
 	"github.com/MikeBooon/coliseum/internal/db/dao"
+	"github.com/MikeBooon/coliseum/internal/repo"
 	"github.com/MikeBooon/coliseum/internal/tenant"
-	"github.com/MikeBooon/coliseum/service/store"
 )
 
 type ProvisionService struct {
-	*store.Provider
-	svcs *Services
+	repos *repo.Repos
 }
 
 type ScaffoldTenantOpts struct {
@@ -24,15 +23,15 @@ func (s *ProvisionService) ScaffoldTenant(
 	opts ScaffoldTenantOpts,
 ) (*dao.Tenant, error) {
 	t := new(dao.Tenant)
-	err := s.svcs.InTx(ctx, func(svcs *Services) error {
-		t, err := s.svcs.Tenant.New(ctx, opts.TenantName)
+	err := s.repos.InTx(ctx, func(repos *repo.Repos) error {
+		t, err := repos.Tenant.New(ctx, opts.TenantName)
 		if err != nil {
 			return err
 		}
 
 		tCtx := tenant.NewContext(ctx, t.ID)
 
-		adminRole, err := s.svcs.RBAC.NewRole(tCtx, NewRoleOpts{
+		adminRole, err := repos.RBAC.NewRole(tCtx, repo.NewRoleOpts{
 			Name:      "Admin",
 			UserType:  domain.TenantUserType,
 			IsDefault: true,
@@ -41,7 +40,7 @@ func (s *ProvisionService) ScaffoldTenant(
 			return err
 		}
 
-		_, err = s.svcs.User.New(tCtx, NewUserOpts{
+		_, err = repos.User.New(tCtx, repo.NewUserOpts{
 			Email:  opts.UserEmail,
 			Type:   domain.TenantUserType,
 			RoleID: adminRole.ID,
@@ -50,7 +49,7 @@ func (s *ProvisionService) ScaffoldTenant(
 			return err
 		}
 
-		_, err = s.svcs.RBAC.NewRole(tCtx, NewRoleOpts{
+		_, err = repos.RBAC.NewRole(tCtx, repo.NewRoleOpts{
 			Name:      "Admin",
 			UserType:  domain.ClientUserType,
 			IsDefault: true,

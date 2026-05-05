@@ -8,6 +8,8 @@ import (
 
 	"github.com/MikeBooon/coliseum/internal/config"
 	"github.com/MikeBooon/coliseum/internal/db"
+	"github.com/MikeBooon/coliseum/internal/repo"
+	"github.com/MikeBooon/coliseum/internal/service"
 	"github.com/MikeBooon/coliseum/internal/system"
 )
 
@@ -40,9 +42,15 @@ func initIntegrationTestDeps(ctx context.Context) *IntegrationTestDeps {
 		log.Fatal(err)
 	}
 	db := db.Connect(env)
+
+	repos := repo.NewRepos(db)
+	svcs := service.NewServices(repos)
+
 	sys := system.System{
 		DB:        db,
 		EnvConfig: env,
+		Svcs:      svcs,
+		Repos:     repos,
 	}
 
 	return &IntegrationTestDeps{

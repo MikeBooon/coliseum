@@ -11,8 +11,9 @@ import (
 
 	"github.com/MikeBooon/coliseum/internal/config"
 	"github.com/MikeBooon/coliseum/internal/db"
+	"github.com/MikeBooon/coliseum/internal/repo"
+	"github.com/MikeBooon/coliseum/internal/service"
 	"github.com/MikeBooon/coliseum/internal/system"
-	"github.com/MikeBooon/coliseum/service"
 )
 
 var seedFiles = map[string]func(sys system.System) error{}
@@ -40,11 +41,13 @@ func main() {
 	}
 
 	db := db.Connect(env)
+	repos := repo.NewRepos(db)
 
 	sys := system.System{
 		DB:        db,
 		EnvConfig: env,
-		Svcs:      service.NewServices(db),
+		Repos:     repos,
+		Svcs:      service.NewServices(repos),
 	}
 
 	if !slices.Contains(slices.Sorted(maps.Keys(seedFiles)), seed) {
