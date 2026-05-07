@@ -44,11 +44,39 @@ func (r RBACRepo) SetUserRole(
 	userID uuid.UUID,
 	roleID uuid.UUID,
 ) (*dao.User, error) {
+	tStore := r.NewTenantStore(ctx)
 	user := new(dao.User)
-	err := r.DB().NewUpdate().
-		Model(user).
+	err := tStore.NewUpdate(user).
 		Where("id = ?", userID).
 		Set("role_id = ?", roleID).
 		Scan(ctx)
 	return user, err
+}
+
+func (r RBACRepo) ClearRolePermissions(
+	ctx context.Context,
+	roleID uuid.UUID,
+) error {
+	tStore := r.NewTenantStore(ctx)
+
+	err := tStore.NewSelect(&dao.Role{}).
+		Where("role_id = ?", roleID).
+		Scan(ctx)
+
+	if isNoRows(err) {
+		return ErrRoleNotFound
+	}
+	if err != nil {
+		return err
+	}
+
+	err = tStore.NewDelete(&dao.Permission{}).
+		Where("role_id = ?", roleID).
+		Scan(ctx)
+
+	if isNoRows(err) {
+		return nil
+	}
+
+	return err
 }

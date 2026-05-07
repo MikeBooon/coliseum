@@ -20,7 +20,7 @@ func NewProvider(db db.IDB) *Provider {
 func (sp Provider) NewTenantStore(ctx context.Context) TenantStore {
 	return TenantStore{
 		db:       sp.db,
-		tenantID: tenant.MustFromContext(ctx),
+		TenantID: tenant.MustFromContext(ctx),
 	}
 }
 
