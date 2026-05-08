@@ -1,15 +1,21 @@
-import Fastify from 'fastify'
+import { getConfig } from '@coli/config'
+import { buildApp } from './app.ts'
 
-const fastify = Fastify({
-    logger: true,
-})
+const config = getConfig()
 
-fastify.get('/', async (_, reply) => {
-    reply.type('application/json').code(200)
-    return { hello: 'world' }
-})
+const app = buildApp(config)
 
-fastify.listen({ port: 3000 }, (err, address) => {
-    if (err) throw err
-    // Server is now listening on ${address}
-})
+app.start()
+
+async function shutdown() {
+    try {
+        await app.stop()
+        process.exit(0)
+    } catch (e) {
+        console.error(e)
+        process.exit(1)
+    }
+}
+
+process.on('SIGTERM', shutdown)
+process.on('SIGINT', shutdown)

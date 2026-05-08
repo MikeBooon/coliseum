@@ -21,7 +21,8 @@
         "declarationMap": true,
         /* No Emission */
         "noEmit": true,
-        "allowImportingTsExtensions": true
+        "allowImportingTsExtensions": true,
+        "verbatimModuleSyntax": true
     },
     "include": ["src"],
     "exclude": ["node_modules", "dist"]
