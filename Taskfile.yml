@@ -3,23 +3,20 @@
 version: "3"
 
 tasks:
-  dev:
+  run:
     dir: "./"
     deps: [docker-up]
     cmds:
-      - tygo generate
-      - task web & task rest
+      - dotenv -- npm run {{.CLI_ARGS}}
 
-  rest:
+  gen:
     dir: "./"
+    deps: [docker-up]
     cmds:
-      - mkdir -p .out
-      - air -c rest.air.toml
+      - task run -- migrate
+      - |
+        npx kysely-codegen --dialect=postgres --out-file=./packages/db/src/dao.gen.ts
 
-  web:
-    dir: "./web/"
-    cmds:
-      - npm run dev
 
   docker-up:
     dir: "./.dev"
@@ -31,14 +28,3 @@ tasks:
     dir: "./.dev"
     cmds:
       - docker compose down -v
-  
-  test:
-    dir: "./"
-    cmds:
-      - go test {{.CLI_ARGS | default "./..."}}
-    
-  seed:
-    dir: "./"
-    deps: [docker-up]
-    cmds:
-      - go run ./cmd/seed -seed="{{.CLI_ARGS}}"
