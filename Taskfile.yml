@@ -1,30 +1,29 @@
 # yaml-language-server: $schema=https://taskfile.dev/schema.json
 
-version: "3"
+version: '3'
 
 tasks:
-  run:
-    dir: "./"
-    deps: [docker-up]
-    cmds:
-      - dotenv -- npm run {{.CLI_ARGS}}
+    run:
+        dir: './'
+        deps: [docker-up]
+        cmds:
+            - dotenv -- npm run {{.CLI_ARGS}}
 
-  gen:
-    dir: "./"
-    deps: [docker-up]
-    cmds:
-      - task run -- migrate
-      - |
-        npx kysely-codegen --dialect=postgres --out-file=./packages/db/src/dao.gen.ts
+    gen:
+        dir: './'
+        deps: [docker-up]
+        cmds:
+            - task run -- migrate
+            - |
+                npx kysely-codegen --dialect=postgres --out-file=./packages/db/src/dao.gen.ts
 
+    docker-up:
+        dir: './.dev'
+        cmds:
+            - ./create-certs.sh
+            - docker compose up -d --wait
 
-  docker-up:
-    dir: "./.dev"
-    cmds:
-      - ./create-certs.sh
-      - docker compose up -d --wait
-
-  reset:
-    dir: "./.dev"
-    cmds:
-      - docker compose down -v
+    reset:
+        dir: './.dev'
+        cmds:
+            - docker compose down -v
