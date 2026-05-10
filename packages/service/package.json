@@ -1,5 +1,5 @@
 {
-    "name": "@coli/config",
+    "name": "@coli/service",
     "version": "1.0.0",
     "description": "",
     "license": "ISC",
@@ -16,5 +16,14 @@
     "files": [
         "src"
     ],
-    "scripts": {}
+    "scripts": {
+        "test": "vitest"
+    },
+    "devDependencies": {
+        "@coli/global": "^1.0.0",
+        "@testcontainers/postgresql": "^11.14.0",
+        "kysely": "^0.28.17",
+        "testcontainers": "^11.14.0",
+        "vitest": "^4.1.5"
+    }
 }

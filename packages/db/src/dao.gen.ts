@@ -11,20 +11,46 @@ export type Generated<T> = T extends ColumnType<infer S, infer I, infer U>
 
 export type Timestamp = ColumnType<Date, Date | string, Date | string>;
 
+export type UserType = "client" | "tenant";
+
+export interface Permission {
+  created_at: Generated<Timestamp>;
+  default: boolean;
+  id: Generated<string>;
+  key: string;
+  role_id: string;
+  tenant_id: string;
+}
+
+export interface Role {
+  created_at: Generated<Timestamp>;
+  default: boolean;
+  id: Generated<string>;
+  name: string;
+  tenant_id: string;
+  type: UserType;
+}
+
 export interface Tenant {
   created_at: Generated<Timestamp>;
   id: Generated<string>;
-  tenant_id: string;
+  name: string;
+  slug: string;
 }
 
 export interface User {
   created_at: Generated<Timestamp>;
   email: string;
   id: Generated<string>;
+  name: string;
+  role_id: string;
   tenant_id: string;
+  type: UserType;
 }
 
 export interface DB {
+  permission: Permission;
+  role: Role;
   tenant: Tenant;
   user: User;
 }

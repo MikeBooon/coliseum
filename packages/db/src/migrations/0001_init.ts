@@ -12,14 +12,50 @@ const addTenantIdColumn = (ctb: CreateTableBuilder<any, any>) => {
     )
 }
 
+const addNameColumn = (ctb: CreateTableBuilder<any, any>) => {
+    return ctb.addColumn('name', 'text', (col) => col.notNull())
+}
+
 export async function up(db: Kysely<any>): Promise<void> {
-    await db.schema.createTable('tenant').$call(addBaseColumns).$call(addTenantIdColumn).execute()
+    await db.schema
+        .createTable('tenant')
+        .$call(addBaseColumns)
+        .$call(addNameColumn)
+        .addColumn('slug', 'text', (col) => col.notNull().unique())
+        .execute()
+
+    await db.schema.createType('user_type').asEnum(['client', 'tenant']).execute()
+
+    await db.schema
+        .createTable('role')
+        .$call(addBaseColumns)
+        .$call(addTenantIdColumn)
+        .$call(addNameColumn)
+        .addColumn('type', sql`user_type`, (col) => col.notNull())
+        .addColumn('default', 'boolean', (col) => col.notNull())
+        .execute()
+
+    await db.schema
+        .createTable('permission')
+        .$call(addBaseColumns)
+        .$call(addTenantIdColumn)
+        .addColumn('key', 'text', (col) => col.notNull())
+        .addColumn('default', 'boolean', (col) => col.notNull())
+        .addColumn('role_id', 'uuid', (col) =>
+            col.references('role.id').onDelete('cascade').notNull()
+        )
+        .execute()
 
     await db.schema
         .createTable('user')
         .$call(addBaseColumns)
         .$call(addTenantIdColumn)
+        .$call(addNameColumn)
         .addColumn('email', 'text', (col) => col.notNull())
-        .addUniqueConstraint('email_tenant_unique', ['email'])
+        .addColumn('type', sql`user_type`, (col) => col.notNull())
+        .addColumn('role_id', 'uuid', (col) =>
+            col.references('role.id').onDelete('restrict').notNull()
+        )
+        .addUniqueConstraint('email_tenant_unique', ['email', 'tenant_id'])
         .execute()
 }

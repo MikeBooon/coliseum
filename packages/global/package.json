@@ -1,12 +1,12 @@
 {
-    "name": "@coli/config",
+    "name": "@coli/global",
     "version": "1.0.0",
     "description": "",
     "license": "ISC",
     "author": "",
     "type": "module",
     "main": "src/index.ts",
-    "types": "src/index.ts",
+    "scripts": {},
     "exports": {
         ".": {
             "import": "./src/index.ts",
@@ -16,5 +16,10 @@
     "files": [
         "src"
     ],
-    "scripts": {}
+    "dependencies": {
+        "typebox": "^1.1.38"
+    },
+    "devDependencies": {
+        "@coli/db": "^1.0.0"
+    }
 }

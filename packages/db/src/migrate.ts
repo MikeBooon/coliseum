@@ -5,13 +5,8 @@ import { promises as fs } from 'fs'
 import { Kysely, Migrator, PostgresDialect, FileMigrationProvider } from 'kysely'
 
 const MIGRATIONS_FOLDER = 'migrations'
-const CONNECTION_STRING = process.env['DATABASE_URL']
 
-if (!CONNECTION_STRING) {
-    throw new Error('Missing env variable: DATABASE_URL')
-}
-
-async function migrate(connectionString: string) {
+export async function migrate(connectionString: string) {
     const db = new Kysely<any>({
         dialect: new PostgresDialect({
             pool: new Pool({
@@ -47,5 +42,3 @@ async function migrate(connectionString: string) {
 
     await db.destroy()
 }
-
-await migrate(CONNECTION_STRING!)
