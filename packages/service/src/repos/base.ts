@@ -9,6 +9,7 @@ export class Repo {
 
 export class TenantedRepo extends Repo {
     protected tenantId: string
+
     constructor(db: DB, tenantId: string) {
         super(db)
         this.tenantId = tenantId

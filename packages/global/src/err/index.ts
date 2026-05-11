@@ -15,3 +15,11 @@ export class UniqueConstraintError extends RequestError {
         this.property = property
     }
 }
+
+export class NotFoundError extends RequestError {
+    public entity: string
+    constructor(entity: string) {
+        super(400, `entity not found: '${entity}'`)
+        this.entity = entity
+    }
+}

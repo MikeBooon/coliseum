@@ -1,9 +1,16 @@
 import { getConfig } from '@coli/config'
 import { buildApp } from './app.ts'
+import { Services } from '@coli/service'
+import { connectDb } from '@coli/db'
 
 const config = getConfig()
 
-const app = buildApp(config)
+const db = connectDb(config.databaseUrl)
+const services = new Services({
+    db: db,
+})
+
+const app = buildApp(config, services)
 
 app.start()
 

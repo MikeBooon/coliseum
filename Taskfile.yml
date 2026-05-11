@@ -15,7 +15,7 @@ tasks:
         cmds:
             - task run -- migrate
             - |
-                npx kysely-codegen --dialect=postgres --out-file=./packages/db/src/dao.gen.ts
+                npx kysely-codegen --dialect=postgres --out-file=./packages/db/src/dao.gen.ts --camel-case
 
     docker-up:
         dir: './.dev'

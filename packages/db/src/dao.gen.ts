@@ -14,37 +14,35 @@ export type Timestamp = ColumnType<Date, Date | string, Date | string>;
 export type UserType = "client" | "tenant";
 
 export interface Permission {
-  created_at: Generated<Timestamp>;
-  default: boolean;
+  createdAt: Generated<Timestamp>;
   id: Generated<string>;
   key: string;
-  role_id: string;
-  tenant_id: string;
+  roleId: string;
 }
 
 export interface Role {
-  created_at: Generated<Timestamp>;
+  createdAt: Generated<Timestamp>;
   default: boolean;
   id: Generated<string>;
   name: string;
-  tenant_id: string;
+  tenantId: string;
   type: UserType;
 }
 
 export interface Tenant {
-  created_at: Generated<Timestamp>;
+  createdAt: Generated<Timestamp>;
   id: Generated<string>;
   name: string;
   slug: string;
 }
 
 export interface User {
-  created_at: Generated<Timestamp>;
+  createdAt: Generated<Timestamp>;
   email: string;
   id: Generated<string>;
   name: string;
-  role_id: string;
-  tenant_id: string;
+  roleId: string;
+  tenantId: string;
   type: UserType;
 }
 

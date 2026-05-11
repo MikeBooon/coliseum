@@ -1,5 +1,8 @@
 import Fastify from 'fastify'
 import type { Config } from '@coli/config'
+import { ProvisionCtrl } from './controllers/provision.ctrl.ts'
+import { connectDb, type DB } from '@coli/db'
+import type { Services } from '@coli/service'
 
 export class App {
     private config: Config
@@ -26,10 +29,13 @@ export class App {
     }
 }
 
-export function buildApp(config: Config): App {
+export function buildApp(config: Config, services: Services): App {
     const fastify = Fastify({
         logger: true,
     })
+
+    const provisionCtrl = new ProvisionCtrl('/api/v1/provision', services)
+    fastify.register(provisionCtrl.routes)
 
     fastify.get('/api', async (_, reply) => {
         reply.type('application/json').code(200)

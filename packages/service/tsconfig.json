@@ -25,6 +25,6 @@
         "verbatimModuleSyntax": true,
         "types": ["./vitest.shims.d.ts"]
     },
-    "include": ["src", "./vitest.shims.d.ts"],
+    "include": ["src", "./vitest.*"],
     "exclude": ["node_modules", "dist"]
 }

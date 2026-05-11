@@ -38,9 +38,7 @@ export async function up(db: Kysely<any>): Promise<void> {
     await db.schema
         .createTable('permission')
         .$call(addBaseColumns)
-        .$call(addTenantIdColumn)
         .addColumn('key', 'text', (col) => col.notNull())
-        .addColumn('default', 'boolean', (col) => col.notNull())
         .addColumn('role_id', 'uuid', (col) =>
             col.references('role.id').onDelete('cascade').notNull()
         )

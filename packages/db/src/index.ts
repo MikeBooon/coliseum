@@ -1,4 +1,4 @@
-import { Kysely, PostgresDialect } from 'kysely'
+import { CamelCasePlugin, Kysely, PostgresDialect } from 'kysely'
 
 import * as dao from './dao.gen.ts'
 import { Pool } from 'pg'
@@ -11,6 +11,7 @@ export function connectDb(databaseUrl: string): Kysely<dao.DB> {
     })
     return new Kysely<dao.DB>({
         dialect,
+        plugins: [new CamelCasePlugin()],
     })
 }
 
