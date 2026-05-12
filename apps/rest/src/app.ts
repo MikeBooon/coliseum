@@ -1,9 +1,10 @@
-import Fastify, { fastify } from 'fastify'
+import Fastify from 'fastify'
 import type { Config } from '@coli/config'
 import provisionCtrl from './controllers/provision.ctrl.ts'
 import type { Services } from '@coli/service'
 import { serviceProvider } from './plugins/services.ts'
 import type { TypeBoxTypeProvider } from '@fastify/type-provider-typebox'
+import { errorHandler } from './plugins/error.ts'
 
 export type FastifyAppInstance = ReturnType<typeof getFastify>
 
@@ -36,15 +37,11 @@ export function buildApp(config: Config, services: Services): App {
     const fastify = getFastify(config.logging)
 
     fastify.register(serviceProvider, { services: services })
+    fastify.register(errorHandler)
 
     const V1_PREFIX = '/api/v1'
 
     fastify.register(provisionCtrl, { prefix: `${V1_PREFIX}/provision` })
-
-    fastify.get('/api', async (_, reply) => {
-        reply.type('application/json').code(200)
-        return { hello: 'world' }
-    })
 
     return new App(config, fastify)
 }

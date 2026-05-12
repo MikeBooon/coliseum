@@ -1,4 +1,4 @@
-import { assert, beforeAll, describe, expect, inject, test } from 'vitest'
+import { beforeAll, describe, expect, inject, test } from 'vitest'
 import { type dto } from '@coli/global'
 import { buildApp } from '../app.ts'
 import { getTestContext } from '@coli/testing'
@@ -27,8 +27,20 @@ describe('ProvisionService', () => {
         })
 
         expect(res.statusCode).toBe(200)
-
         expect(res.body).toContain('tenant')
+
+        const res2 = await fastify.inject({
+            method: 'POST',
+            url: buildTestDomain('/api/v1/provision/tenant'),
+            payload: newTenantProvisionFixture,
+        })
+
+        expect(res2.statusCode).toBe(409)
+        expect(res2.json()).toStrictEqual({
+            id: 'UniqueConstraintError',
+            property: 'slug',
+            message: "unique constraint property: 'slug'",
+        })
     })
 
     test('new tenant validates input', async () => {
