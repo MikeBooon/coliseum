@@ -22,9 +22,8 @@
         /* No Emission */
         "noEmit": true,
         "allowImportingTsExtensions": true,
-        "verbatimModuleSyntax": true,
-        "types": ["./vitest.shims.d.ts"]
+        "verbatimModuleSyntax": true
     },
-    "include": ["src", "./vitest.*"],
+    "include": ["src"],
     "exclude": ["node_modules", "dist"]
 }

@@ -11,7 +11,7 @@ export abstract class RequestError extends Error {
 export class UniqueConstraintError extends RequestError {
     public property: string
     constructor(property: string) {
-        super(400, `unique constraint property: '${property}'`)
+        super(409, `unique constraint property: '${property}'`)
         this.property = property
     }
 }
@@ -19,7 +19,7 @@ export class UniqueConstraintError extends RequestError {
 export class NotFoundError extends RequestError {
     public entity: string
     constructor(entity: string) {
-        super(400, `entity not found: '${entity}'`)
+        super(404, `entity not found: '${entity}'`)
         this.entity = entity
     }
 }

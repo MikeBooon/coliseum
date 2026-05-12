@@ -1,0 +1,25 @@
+{
+    "name": "@coli/testing",
+    "version": "1.0.0",
+    "description": "",
+    "license": "ISC",
+    "author": "",
+    "type": "module",
+    "main": "src/index.ts",
+    "types": "src/index.ts",
+    "exports": {
+        ".": {
+            "import": "./src/index.ts",
+            "types": "./src/index.ts"
+        }
+    },
+    "files": [
+        "src"
+    ],
+    "scripts": {},
+    "devDependencies": {
+        "@coli/config": "^1.0.0",
+        "@coli/db": "^1.0.0",
+        "@coli/service": "^1.0.0"
+    }
+}

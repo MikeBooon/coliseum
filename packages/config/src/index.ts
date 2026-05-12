@@ -3,6 +3,7 @@ export type Config = {
     domain: string
     encKey: string
     restPort: number
+    logging: boolean
 }
 
 export function getConfig(): Config {
@@ -11,6 +12,7 @@ export function getConfig(): Config {
         domain: getEnvOrThrow('DOMAIN'),
         encKey: getEnvOrThrow('ENC_KEY'),
         restPort: getIntEnvOrThrow('REST_PORT'),
+        logging: true,
     }
 }
 
@@ -37,3 +39,5 @@ function getIntEnvOrThrow(key: string): number {
     }
     return parseInt(v)
 }
+
+export * from './test/config.ts'

@@ -1,0 +1,7 @@
+export const INPUTS = {
+    MAX_EMAIL_LENGTH: 300,
+    MAX_NAME_LENGTH: 200,
+    MAX_SLUG_LENGTH: 100,
+    MIN_NAME_LENGTH: 2,
+    MIN_SLUG_LENGTH: 2,
+} as const

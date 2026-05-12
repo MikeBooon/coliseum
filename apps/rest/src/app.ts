@@ -1,8 +1,11 @@
-import Fastify from 'fastify'
+import Fastify, { fastify } from 'fastify'
 import type { Config } from '@coli/config'
-import { ProvisionCtrl } from './controllers/provision.ctrl.ts'
-import { connectDb, type DB } from '@coli/db'
+import provisionCtrl from './controllers/provision.ctrl.ts'
 import type { Services } from '@coli/service'
+import { serviceProvider } from './plugins/services.ts'
+import type { TypeBoxTypeProvider } from '@fastify/type-provider-typebox'
+
+export type FastifyAppInstance = ReturnType<typeof getFastify>
 
 export class App {
     private config: Config
@@ -30,12 +33,13 @@ export class App {
 }
 
 export function buildApp(config: Config, services: Services): App {
-    const fastify = Fastify({
-        logger: true,
-    })
+    const fastify = getFastify(config.logging)
 
-    const provisionCtrl = new ProvisionCtrl('/api/v1/provision', services)
-    fastify.register(provisionCtrl.routes)
+    fastify.register(serviceProvider, { services: services })
+
+    const V1_PREFIX = '/api/v1'
+
+    fastify.register(provisionCtrl, { prefix: `${V1_PREFIX}/provision` })
 
     fastify.get('/api', async (_, reply) => {
         reply.type('application/json').code(200)
@@ -43,4 +47,10 @@ export function buildApp(config: Config, services: Services): App {
     })
 
     return new App(config, fastify)
+}
+
+function getFastify(withLogger: boolean) {
+    return Fastify({
+        logger: withLogger,
+    }).withTypeProvider<TypeBoxTypeProvider>()
 }

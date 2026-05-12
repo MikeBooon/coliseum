@@ -17,6 +17,7 @@ app.start()
 async function shutdown() {
     try {
         await app.stop()
+        await db.destroy()
         process.exit(0)
     } catch (e) {
         console.error(e)

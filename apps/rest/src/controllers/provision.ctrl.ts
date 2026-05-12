@@ -1,11 +1,9 @@
-import type { FastifyInstance } from 'fastify'
-import { Controller } from './base.ts'
+import { dto } from '@coli/global'
+import type { FastifyAppInstance } from '../app.ts'
 
-// Fix this. The routes is not bound to the class. Need to fix.
-export class ProvisionCtrl extends Controller {
-    public async routes(fastify: FastifyInstance): Promise<void> {
-        fastify.post(`${this.base}/tenant`, async (request, reply) => {
-            return { hello: 'world' }
-        })
-    }
+export default async function routes(fastify: FastifyAppInstance) {
+    fastify.post('/tenant', { schema: { body: dto.ProvisionTenant } }, async (request, reply) => {
+        const tenant = await fastify.services.provision.provisionTenant(request.body)
+        return { tenant }
+    })
 }
