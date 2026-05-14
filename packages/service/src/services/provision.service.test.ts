@@ -1,8 +1,7 @@
 import { describe, expect, inject, test } from 'vitest'
-import { connectDb } from '@coli/db'
 import { err, type dto } from '@coli/global'
-import { Services } from '../index.ts'
 import { UserRepo } from '../repos/user.repo.ts'
+import { getTestContext } from '@coli/testing'
 
 const newTenantProvisionFixture: dto.ProvisionTenant = {
     email: 'test@test.com',
@@ -12,8 +11,7 @@ const newTenantProvisionFixture: dto.ProvisionTenant = {
 }
 
 describe('ProvisionService', () => {
-    const db = connectDb(inject('DATABASE_URL'))
-    const services = new Services({ db })
+    const { db, services } = getTestContext(inject('DATABASE_URL'))
 
     test('can provision tenant', async () => {
         const tenant = await services.provision.provisionTenant(newTenantProvisionFixture)

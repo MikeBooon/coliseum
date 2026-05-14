@@ -1,6 +1,8 @@
+import { CLIENT_PERMISSIONS, GLOBAL_PERMISSIONS, TENANT_PERMISSIONS } from '@coli/perms'
 import { RoleRepo } from '../repos/role.repo.ts'
 import { TenantRepo } from '../repos/tenant.repo.ts'
 import { UserRepo } from '../repos/user.repo.ts'
+import { createHash } from '../util/hash.ts'
 import { Service } from './base.ts'
 import type { domain, dto } from '@coli/global'
 
@@ -28,7 +30,16 @@ export class ProvisionService extends Service {
             const roleRepo = new RoleRepo(tx, tenant.id)
 
             const tenantRole = await roleRepo.create(DEFAULT_TENANT_ROLE)
-            await roleRepo.create(DEFAULT_CLIENT_ROLE)
+            const clientRole = await roleRepo.create(DEFAULT_CLIENT_ROLE)
+
+            roleRepo.assignPermissions(tenantRole.id, [
+                ...GLOBAL_PERMISSIONS,
+                ...TENANT_PERMISSIONS,
+            ])
+            roleRepo.assignPermissions(clientRole.id, [
+                ...GLOBAL_PERMISSIONS,
+                ...CLIENT_PERMISSIONS,
+            ])
 
             const userRepo = new UserRepo(tx, tenant.id)
 
@@ -41,7 +52,10 @@ export class ProvisionService extends Service {
                 type: 'tenant',
             })
 
-            await userRepo.createCredential({ userId: user.id })
+            await userRepo.createCredential({
+                userId: user.id,
+                passwordHash: await createHash(data.password),
+            })
 
             return tenant
         })

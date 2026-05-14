@@ -9,10 +9,11 @@ export type TestContext = {
 }
 
 export function getTestContext(dbUrl: string): TestContext {
-    const db = connectDb(dbUrl)
-    const services = new Services({ db })
+    const config = getTestConfig(dbUrl)
+    const db = connectDb(config.databaseUrl)
+    const services = new Services({ db, config })
     return {
-        config: getTestConfig(dbUrl),
+        config: config,
         db: db,
         services: services,
     }

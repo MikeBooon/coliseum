@@ -27,6 +27,8 @@
         "vitest": "^4.1.5"
     },
     "dependencies": {
+        "@coli/perms": "^1.0.0",
+        "nanoid": "^3.3.11",
         "typebox": "^1.1.38"
     }
 }

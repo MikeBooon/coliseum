@@ -8,6 +8,7 @@ const config = getConfig()
 const db = connectDb(config.databaseUrl)
 const services = new Services({
     db: db,
+    config: config,
 })
 
 const app = buildApp(config, services)
