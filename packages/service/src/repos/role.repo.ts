@@ -32,7 +32,6 @@ export class RoleRepo extends TenantedRepo {
             .values(
                 permissions.map((p) => ({
                     roleId: roleId,
-                    tenantId: this.tenantId,
                     key: p,
                 }))
             )
