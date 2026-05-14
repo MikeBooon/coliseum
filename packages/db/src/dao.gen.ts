@@ -9,6 +9,20 @@ export type Generated<T> = T extends ColumnType<infer S, infer I, infer U>
   ? ColumnType<S, I | undefined, U>
   : ColumnType<T, T | undefined, T>;
 
+export type Json = JsonValue;
+
+export type JsonArray = JsonValue[];
+
+export type JsonObject = {
+  [x: string]: JsonValue | undefined;
+};
+
+export type JsonPrimitive = boolean | number | string | null;
+
+export type JsonValue = JsonArray | JsonObject | JsonPrimitive;
+
+export type TaskStatus = "complete" | "failed" | "pending" | "running";
+
 export type Timestamp = ColumnType<Date, Date | string, Date | string>;
 
 export type UserType = "client" | "tenant";
@@ -29,6 +43,20 @@ export interface Role {
   type: UserType;
 }
 
+export interface Task {
+  attempts: Generated<number>;
+  createdAt: Generated<Timestamp>;
+  data: Json;
+  id: Generated<string>;
+  lastError: string | null;
+  lastRun: Timestamp | null;
+  maxAttempts: Generated<number>;
+  status: Generated<TaskStatus>;
+  tag: string;
+  tenantId: string | null;
+  workerId: string | null;
+}
+
 export interface Tenant {
   createdAt: Generated<Timestamp>;
   id: Generated<string>;
@@ -46,9 +74,19 @@ export interface User {
   type: UserType;
 }
 
+export interface UserCredential {
+  createdAt: Generated<Timestamp>;
+  id: Generated<string>;
+  passwordHash: string | null;
+  totpSecret: string | null;
+  userId: string;
+}
+
 export interface DB {
   permission: Permission;
   role: Role;
+  task: Task;
   tenant: Tenant;
   user: User;
+  userCredential: UserCredential;
 }

@@ -4,6 +4,7 @@ import type { Insertable, Selectable } from 'kysely'
 import { handleConstraintError, type OmitTenantId } from './util.ts'
 
 export type NewUser = OmitTenantId<Insertable<dao.User>>
+export type NewUserCredential = OmitTenantId<Insertable<dao.UserCredential>>
 
 export class UserRepo extends TenantedRepo {
     public async getByEmail(email: string): Promise<Selectable<dao.User> | undefined> {
@@ -15,7 +16,7 @@ export class UserRepo extends TenantedRepo {
             .executeTakeFirst()
     }
 
-    public async create(data: NewUser): Promise<Selectable<dao.User>> {
+    public async createUser(data: NewUser): Promise<Selectable<dao.User>> {
         try {
             return await this.db
                 .insertInto('user')
@@ -30,5 +31,17 @@ export class UserRepo extends TenantedRepo {
             handleConstraintError(e, 'email_tenant_unique', 'email')
             throw e
         }
+    }
+
+    public async createCredential(
+        data: NewUserCredential
+    ): Promise<Selectable<dao.UserCredential>> {
+        return await this.db
+            .insertInto('userCredential')
+            .values({
+                ...data,
+            })
+            .returningAll()
+            .executeTakeFirstOrThrow()
     }
 }

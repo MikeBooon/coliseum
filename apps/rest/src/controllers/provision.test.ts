@@ -8,6 +8,7 @@ const newTenantProvisionFixture: dto.ProvisionTenant = {
     email: 'test@test.com',
     name: 'tenant name',
     slug: 'tenant-slug',
+    password: 'testPass$$21123d',
 }
 
 describe('ProvisionService', () => {

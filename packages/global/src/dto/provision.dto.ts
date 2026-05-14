@@ -11,6 +11,10 @@ export const ProvisionTenant = Type.Object({
         maxLength: INPUTS.MAX_SLUG_LENGTH,
     }),
     email: Type.String({ format: 'email', maxLength: INPUTS.MAX_EMAIL_LENGTH }),
+    password: Type.String({
+        minLength: INPUTS.PASSWORD_MIN_LENGTH,
+        pattern: INPUTS.PASSWORD_REGEX,
+    }),
 })
 
 export type ProvisionTenant = Type.Static<typeof ProvisionTenant>

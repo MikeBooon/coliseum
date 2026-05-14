@@ -1,1 +1,1 @@
-export * from './provision.ts'
+export * from './provision.dto.ts'

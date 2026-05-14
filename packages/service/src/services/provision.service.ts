@@ -20,7 +20,7 @@ export class ProvisionService extends Service {
     public async provisionTenant(data: dto.ProvisionTenant): Promise<domain.Tenant> {
         return this.db.transaction().execute(async (tx) => {
             const tenantRepo = new TenantRepo(tx)
-            const tenant = await tenantRepo.create({
+            const tenant = await tenantRepo.createTenant({
                 name: data.name,
                 slug: data.slug,
             })
@@ -34,12 +34,14 @@ export class ProvisionService extends Service {
 
             const name = data.email.split('@')[0]
 
-            await userRepo.create({
+            const user = await userRepo.createUser({
                 roleId: tenantRole.id,
                 email: data.email,
                 name: name,
                 type: 'tenant',
             })
+
+            await userRepo.createCredential({ userId: user.id })
 
             return tenant
         })

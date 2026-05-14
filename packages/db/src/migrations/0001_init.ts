@@ -3,12 +3,18 @@ import { CreateTableBuilder, Kysely, sql } from 'kysely'
 const addBaseColumns = (ctb: CreateTableBuilder<any, any>) => {
     return ctb
         .addColumn('id', 'uuid', (col) => col.primaryKey().defaultTo(sql`gen_random_uuid()`))
-        .addColumn('created_at', 'date', (col) => col.notNull().defaultTo(sql`now()`))
+        .addColumn('created_at', 'timestamptz', (col) => col.notNull().defaultTo(sql`now()`))
 }
 
 const addTenantIdColumn = (ctb: CreateTableBuilder<any, any>) => {
     return ctb.addColumn('tenant_id', 'uuid', (col) =>
         col.references('tenant.id').onDelete('cascade').notNull()
+    )
+}
+
+const addOptionalTenantIdColumn = (ctb: CreateTableBuilder<any, any>) => {
+    return ctb.addColumn('tenant_id', 'uuid', (col) =>
+        col.references('tenant.id').onDelete('cascade')
     )
 }
 
@@ -25,6 +31,11 @@ export async function up(db: Kysely<any>): Promise<void> {
         .execute()
 
     await db.schema.createType('user_type').asEnum(['client', 'tenant']).execute()
+
+    await db.schema
+        .createType('task_status')
+        .asEnum(['pending', 'running', 'failed', 'complete'])
+        .execute()
 
     await db.schema
         .createTable('role')
@@ -55,5 +66,29 @@ export async function up(db: Kysely<any>): Promise<void> {
             col.references('role.id').onDelete('restrict').notNull()
         )
         .addUniqueConstraint('email_tenant_unique', ['email', 'tenant_id'])
+        .execute()
+
+    await db.schema
+        .createTable('user_credential')
+        .$call(addBaseColumns)
+        .addColumn('password_hash', 'text')
+        .addColumn('totp_secret', 'text')
+        .addColumn('user_id', 'uuid', (col) =>
+            col.references('user.id').onDelete('cascade').notNull().unique()
+        )
+        .execute()
+
+    await db.schema
+        .createTable('task')
+        .$call(addBaseColumns)
+        .$call(addOptionalTenantIdColumn)
+        .addColumn('tag', 'text', (col) => col.notNull())
+        .addColumn('data', 'jsonb', (col) => col.notNull())
+        .addColumn('status', sql`task_status`, (col) => col.notNull().defaultTo(`pending`))
+        .addColumn('attempts', 'integer', (col) => col.notNull().defaultTo(0))
+        .addColumn('max_attempts', 'integer', (col) => col.notNull().defaultTo(1))
+        .addColumn('last_run', 'timestamptz')
+        .addColumn('last_error', 'text')
+        .addColumn('worker_id', 'text')
         .execute()
 }

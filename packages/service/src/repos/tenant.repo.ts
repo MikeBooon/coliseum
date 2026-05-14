@@ -6,7 +6,7 @@ import { handleConstraintError } from './util.ts'
 export type NewTenant = Insertable<dao.Tenant>
 
 export class TenantRepo extends Repo {
-    public async create(data: NewTenant) {
+    public async createTenant(data: NewTenant) {
         try {
             return await this.db
                 .insertInto('tenant')
